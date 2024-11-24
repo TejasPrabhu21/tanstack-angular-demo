@@ -1,0 +1,24 @@
+<div>
+    <form [formGroup]="form" (ngSubmit)="onAddTodo()">
+        <input formControlName="title" placeholder="Enter todo title" required />
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <p>{{todos.status()}}</p>
+
+    @for (item of placeholders; track $index) {}
+    @if (todos.isError()) {
+    <span>Error: {{ todos.error().message }}</span>
+    }
+    @else if (todos.isPending() || todos.isFetching()) {
+    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+        @for (item of placeholders; track $index) {<span class="loading-placeholder"></span>}
+    </div>
+    } @else {
+    @for (todo of todos.data(); track todo.id) {
+    <li>{{ todo.title }}</li>
+    } @empty {
+    <li>No todos found</li>
+    }
+    }
+</div>

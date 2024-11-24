@@ -1,0 +1,19 @@
+<div>
+    @if (query.isPending()) {
+    <p>Loading...</p>
+    } @else if (query.isError()) {
+    <span>Error: {{ query.error()?.message }}</span>
+    } @else { @for (page of query.data()?.pages; track $index) { @for (project of
+    page; track project.id) {
+    <p>{{ project.id }}. {{ project.title }} </p>
+    } }
+    <div>
+        <button (click)="query.fetchNextPage()">
+            {{ nextButtonText() }}
+        </button>
+
+        <p>{{query.hasNextPage()}}</p>
+        <p>{{nextButtonDisabled()}}</p>
+    </div>
+    }
+</div>
